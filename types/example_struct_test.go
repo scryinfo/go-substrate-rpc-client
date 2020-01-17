@@ -19,7 +19,7 @@ package types_test
 import (
 	"fmt"
 
-	. "github.com/centrifuge/go-substrate-rpc-client/types"
+	. "github.com/scryinfo/go-substrate-rpc-client/types"
 )
 
 func ExampleExampleStruct() {

@@ -23,8 +23,8 @@ import (
 	"io"
 	"reflect"
 
-	"github.com/centrifuge/go-substrate-rpc-client/scale"
 	"github.com/ethereum/go-ethereum/log"
+	"github.com/scryinfo/go-substrate-rpc-client/scale"
 )
 
 // EventRecordsRaw is a raw record for a set of events, represented as the raw bytes. It exists since
@@ -269,6 +269,45 @@ type EventTreasuryDeposit struct {
 	Topics  []Hash
 }
 
+//erc1155
+
+type EventErc1155NewToken struct {
+	Phase        Phase
+	TokenId      uint32
+	AccountId    AccountID
+	TokenBalance uint64
+	Topics       []Hash
+}
+
+type EventErc1155Transfer struct {
+	Phase  Phase
+	From   AccountID
+	To     AccountID
+	Value  uint64
+	Topics []Hash
+}
+
+type EventErc1155TransferSingle struct {
+	Phase    Phase
+	Operator AccountID
+	From     AccountID
+	To       AccountID
+	Id       uint32
+	Value    uint64
+	Topics   []Hash
+}
+
+///**
+//  @dev MUST emit when approval for a second party/operator address to manage all tokens for an owner address is enabled or disabled (absense of an event assumes disabled).
+//*/
+type EventErc1155ApprovalForAll struct {
+	Phase    Phase
+	Owner    AccountID
+	Operator AccountID
+	Approved bool
+	Topics   []Hash
+}
+
 // EventRecords is a default set of possible event records that can be used as a target for
 // `func (e EventRecordsRaw) Decode(...`
 type EventRecords struct {
@@ -290,6 +329,10 @@ type EventRecords struct {
 	System_ExtrinsicSuccess            []EventSystemExtrinsicSuccess            //nolint:stylecheck,golint
 	System_ExtrinsicFailed             []EventSystemExtrinsicFailed             //nolint:stylecheck,golint
 	Treasury_Deposit                   []EventTreasuryDeposit                   //nolint:stylecheck,golint
+	Erc1155_NewToken                   []EventErc1155NewToken                   //nolint:stylecheck,golint
+	Erc1155_Transfer                   []EventErc1155Transfer                   //nolint:stylecheck,golint
+	Erc1155_TransferSingle             []EventErc1155TransferSingle             //nolint:stylecheck,golint
+	Erc1155_ApprovalForAll             []EventErc1155ApprovalForAll             //nolint:stylecheck,golint
 }
 
 // DecodeEventRecords decodes the events records from an EventRecordRaw into a target t using the given Metadata m

@@ -17,7 +17,7 @@
 package types
 
 import (
-	"github.com/centrifuge/go-substrate-rpc-client/scale"
+	"github.com/scryinfo/go-substrate-rpc-client/scale"
 )
 
 // TODO adjust to use U256 or even big ints instead, needs to adopt codec though
