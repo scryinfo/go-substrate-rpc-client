@@ -119,12 +119,14 @@ func ExampleEventRecordsRaw_Decode() {
 			"01" + // Operational
 			"01" + // PaysFee
 			"00" +
+
 			"0001000000" +
 			"0000" +
 			"10270000" + // Weight
 			"01" + // operational
 			"01" + // PaysFee
 			"00" +
+
 			"0002000000" +
 			"0302" +
 			"d43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d" +
@@ -132,6 +134,7 @@ func ExampleEventRecordsRaw_Decode() {
 			"266d0000000000000000000000000000" +
 			"0010a5d4e80000000000000000000000" +
 			"00" +
+
 			"0002000000" +
 			"0000" +
 			"10270000" + // Weight
