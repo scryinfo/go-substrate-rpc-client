@@ -358,6 +358,7 @@ type StorageHasherV10 struct {
 	IsTwox128          bool // 3
 	IsTwox256          bool // 4
 	IsTwox64Concat     bool // 5
+	IsIdentity         bool // 6
 }
 
 func (s *StorageHasherV10) Decode(decoder scale.Decoder) error {
@@ -380,6 +381,8 @@ func (s *StorageHasherV10) Decode(decoder scale.Decoder) error {
 		s.IsTwox256 = true
 	case 5:
 		s.IsTwox64Concat = true
+	case 6:
+		s.IsIdentity = true
 	default:
 		return fmt.Errorf("received unexpected storage hasher type %v", t)
 	}
@@ -401,6 +404,8 @@ func (s StorageHasherV10) Encode(encoder scale.Encoder) error {
 		t = 4
 	case s.IsTwox64Concat:
 		t = 5
+	case s.IsIdentity:
+		t = 6
 	default:
 		return fmt.Errorf("expected storage hasher, but none was set: %v", s)
 	}
