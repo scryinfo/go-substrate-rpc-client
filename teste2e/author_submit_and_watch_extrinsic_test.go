@@ -81,8 +81,8 @@ func TestAuthor_SubmitAndWatchExtrinsic(t *testing.T) {
 	}
 
 	var nonce uint32
-	err = api.RPC.State.GetStorageLatest(key, &nonce)
-	if err != nil {
+	ok, err = api.RPC.State.GetStorageLatest(key, &nonce)
+	if err != nil || !ok {
 		panic(err)
 	}
 
@@ -114,8 +114,8 @@ func TestAuthor_SubmitAndWatchExtrinsic(t *testing.T) {
 		case status := <-sub.Chan():
 			fmt.Printf("%#v\n", status)
 
-			if status.IsFinalized {
-				assert.False(t, types.Eq(status.AsFinalized, types.ExtrinsicStatus{}.AsFinalized),
+			if status.IsInBlock {
+				assert.False(t, types.Eq(status.AsInBlock, types.ExtrinsicStatus{}.AsInBlock),
 					"expected AsFinalized not to be empty")
 				return
 			}

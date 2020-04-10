@@ -17,7 +17,7 @@
 package author
 
 import (
-	"github.com/scryinfo/go-substrate-rpc-client/client"
+	"github.com/centrifuge/go-substrate-rpc-client/client"
 )
 
 // Author exposes methods for authoring of network items

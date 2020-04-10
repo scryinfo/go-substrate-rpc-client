@@ -4,6 +4,7 @@ go 1.13
 
 require (
 	github.com/aristanetworks/goarista v0.0.0-20190712234253-ed1100a1c015
+	github.com/centrifuge/go-substrate-rpc-client v0.0.0-00010101000000-000000000000
 	github.com/davecgh/go-spew v1.1.1
 	github.com/deckarep/golang-set v1.7.1
 	github.com/ethereum/go-ethereum v1.9.3
@@ -17,3 +18,5 @@ require (
 	golang.org/x/sys v0.0.0-20190712062909-fae7ac547cb7
 	gopkg.in/natefinch/npipe.v2 v2.0.0-20160621034901-c1b8fa8bdcce
 )
+
+replace github.com/centrifuge/go-substrate-rpc-client => ./
