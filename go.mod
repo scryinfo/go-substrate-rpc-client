@@ -1,6 +1,6 @@
 module github.com/scryinfo/go-substrate-rpc-client
 
-go 1.13
+go 1.14
 
 require (
 	github.com/aristanetworks/goarista v0.0.0-20190712234253-ed1100a1c015

@@ -430,6 +430,14 @@ func (pd Decoder) DecodeIntoReflectValue(target reflect.Value) error {
 			}
 		}
 		for i := 0; i < codedLen; i++ {
+			name := t.String() //todo peace test
+			if name == "[]types.ModuleMetadataV10" {
+				_ = name
+			}
+			if name == "[]types.StorageFunctionMetadataV10" && i == 2 && codedLen == 11 {
+				_ = name
+			}
+
 			err := pd.DecodeIntoReflectValue(target.Index(i))
 			if err != nil {
 				return err

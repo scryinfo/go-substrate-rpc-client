@@ -17,11 +17,11 @@
 package rpc
 
 import (
-	"github.com/scryinfo/go-substrate-rpc-client/client"
-	"github.com/scryinfo/go-substrate-rpc-client/rpc/author"
-	"github.com/scryinfo/go-substrate-rpc-client/rpc/chain"
-	"github.com/scryinfo/go-substrate-rpc-client/rpc/state"
-	"github.com/scryinfo/go-substrate-rpc-client/rpc/system"
+	"github.com/centrifuge/go-substrate-rpc-client/client"
+	"github.com/centrifuge/go-substrate-rpc-client/rpc/author"
+	"github.com/centrifuge/go-substrate-rpc-client/rpc/chain"
+	"github.com/centrifuge/go-substrate-rpc-client/rpc/state"
+	"github.com/centrifuge/go-substrate-rpc-client/rpc/system"
 )
 
 type RPC struct {

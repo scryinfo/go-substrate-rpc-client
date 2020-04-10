@@ -17,9 +17,8 @@
 package state
 
 import (
-	"fmt"
-	"github.com/scryinfo/go-substrate-rpc-client/client"
-	"github.com/scryinfo/go-substrate-rpc-client/types"
+	"github.com/centrifuge/go-substrate-rpc-client/client"
+	"github.com/centrifuge/go-substrate-rpc-client/types"
 )
 
 // GetStorage retreives the stored data and decodes them into the provided interface. Ok is true if the value is not
@@ -29,7 +28,7 @@ func (s *State) GetStorage(key types.StorageKey, target interface{}, blockHash t
 	if err != nil {
 		return false, err
 	}
-	fmt.Printf("%#v", raw)
+
 	if len(*raw) == 0 {
 		return false, nil
 	}
