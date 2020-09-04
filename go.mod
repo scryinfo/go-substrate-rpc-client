@@ -4,7 +4,7 @@ go 1.14
 
 require (
 	github.com/aristanetworks/goarista v0.0.0-20190712234253-ed1100a1c015
-	github.com/centrifuge/go-substrate-rpc-client v0.0.0-00010101000000-000000000000
+	github.com/centrifuge/go-substrate-rpc-client v2.0.0-alpha.5.0.20200825131151-a5b9dc6158b2+incompatible 
 	github.com/davecgh/go-spew v1.1.1
 	github.com/deckarep/golang-set v1.7.1
 	github.com/ethereum/go-ethereum v1.9.3
