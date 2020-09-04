@@ -42,9 +42,17 @@ var rePubKey = regexp.MustCompile(`Public key \(hex\): 0x([a-f0-9]*)\n`)
 var reAddressOld = regexp.MustCompile(`Address \(SS58\): ([a-zA-Z0-9]*)\n`)
 var reAddressNew = regexp.MustCompile(`SS58 Address:\s+([a-zA-Z0-9]*)\n`)
 
-func KeyringPairFromSecret(seedOrPhrase string) (KeyringPair, error) {
+// KeyringPairFromSecret creates KeyPair based on seed/phrase and network
+// Leave network empty for default behavior
+func KeyringPairFromSecret(seedOrPhrase, network string) (KeyringPair, error) {
+	var args []string
+	if network != "" {
+		args = []string{"-n", network}
+	}
+	args = append(args, []string{"inspect", seedOrPhrase}...)
+
 	// use "subkey" command for creation of public key and address
-	cmd := exec.Command(subkeyCmd, "inspect", seedOrPhrase)
+	cmd := exec.Command(subkeyCmd, args...)
 
 	// execute the command, get the output
 	out, err := cmd.Output()
@@ -127,7 +135,7 @@ func Sign(data []byte, privateKeyURI string) ([]byte, error) {
 
 // Verify verifies data using the provided signature and the key under the derivation path. Requires the subkey
 // command to be in path
-func Verify(data []byte, sig []byte, publicIdentifier string) (bool, error) {
+func Verify(data []byte, sig []byte, privateKeyURI string) (bool, error) {
 	// if data is longer than 256 bytes, hash it first
 	if len(data) > 256 {
 		h := blake2b.Sum256(data)
@@ -138,13 +146,13 @@ func Verify(data []byte, sig []byte, publicIdentifier string) (bool, error) {
 	sigHex := hex.EncodeToString(sig)
 
 	// use "subkey" command for signature
-	cmd := exec.Command(subkeyCmd, "verify", sigHex, publicIdentifier, "--hex")
+	cmd := exec.Command(subkeyCmd, "verify", sigHex, privateKeyURI, "--hex")
 
 	// data to stdin
 	dataHex := hex.EncodeToString(data)
 	cmd.Stdin = strings.NewReader(dataHex)
 
-	// log.Printf("echo -n \"%v\" | %v verify %v %v --hex", dataHex, subkeyCmd, sigHex, publicIdentifier)
+	// log.Printf("echo -n \"%v\" | %v verify %v %v --hex", dataHex, subkeyCmd, sigHex, privateKeyURI)
 
 	// execute the command, get the output
 	out, err := cmd.Output()
@@ -165,12 +173,15 @@ func Verify(data []byte, sig []byte, publicIdentifier string) (bool, error) {
 // LoadKeyringPairFromEnv looks up whether the env variable TEST_PRIV_KEY is set and is not empty and tries to use its
 // content as a private phrase, seed or URI to derive a key ring pair. Panics if the private phrase, seed or URI is
 // not valid or the keyring pair cannot be derived
+// Loads Network from TEST_NETWORK variable
+// Leave TEST_NETWORK empty or unset for default
 func LoadKeyringPairFromEnv() (kp KeyringPair, ok bool) {
+	network := os.Getenv("TEST_NETWORK")
 	priv, ok := os.LookupEnv("TEST_PRIV_KEY")
 	if !ok || priv == "" {
 		return kp, false
 	}
-	kp, err := KeyringPairFromSecret(priv)
+	kp, err := KeyringPairFromSecret(priv, network)
 	if err != nil {
 		panic(fmt.Errorf("cannot load keyring pair from env or use fallback: %v", err))
 	}

@@ -19,9 +19,9 @@ package types_test
 import (
 	"testing"
 
-	"github.com/stretchr/testify/assert"
-
 	. "github.com/centrifuge/go-substrate-rpc-client/types"
+
+	"github.com/stretchr/testify/assert"
 )
 
 var exampleMetadataV4 = Metadata{

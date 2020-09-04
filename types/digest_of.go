@@ -16,7 +16,9 @@
 
 package types
 
-import "encoding/json"
+import (
+	"encoding/json"
+)
 
 // DigestOf contains logs
 type DigestOf []DigestItem

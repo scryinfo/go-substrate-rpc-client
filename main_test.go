@@ -24,7 +24,6 @@ import (
 	gsrpc "github.com/centrifuge/go-substrate-rpc-client"
 	"github.com/centrifuge/go-substrate-rpc-client/config"
 	"github.com/centrifuge/go-substrate-rpc-client/signature"
-
 	"github.com/centrifuge/go-substrate-rpc-client/types"
 )
 
@@ -204,7 +203,7 @@ func Example_makeASimpleTransfer() {
 		panic(err)
 	}
 
-	c, err := types.NewCall(meta, "Balances.transfer", bob, types.UCompact(12345))
+	c, err := types.NewCall(meta, "Balances.transfer", bob, types.NewUCompactFromUInt(12345))
 	if err != nil {
 		panic(err)
 	}
@@ -222,24 +221,26 @@ func Example_makeASimpleTransfer() {
 		panic(err)
 	}
 
-	key, err := types.CreateStorageKey(meta, "System", "AccountNonce", signature.TestKeyringPairAlice.PublicKey, nil)
+	key, err := types.CreateStorageKey(meta, "System", "Account", signature.TestKeyringPairAlice.PublicKey, nil)
 	if err != nil {
 		panic(err)
 	}
 
-	var nonce uint32
-	ok, err := api.RPC.State.GetStorageLatest(key, &nonce)
+	var accountInfo types.AccountInfo
+	ok, err := api.RPC.State.GetStorageLatest(key, &accountInfo)
 	if err != nil || !ok {
 		panic(err)
 	}
+
+	nonce := uint32(accountInfo.Nonce)
 
 	o := types.SignatureOptions{
 		BlockHash:   genesisHash,
 		Era:         types.ExtrinsicEra{IsMortalEra: false},
 		GenesisHash: genesisHash,
-		Nonce:       types.UCompact(nonce),
+		Nonce:       types.NewUCompactFromUInt(uint64(nonce)),
 		SpecVersion: rv.SpecVersion,
-		Tip:         0,
+		Tip:         types.NewUCompactFromUInt(0),
 	}
 
 	// Sign the transaction using Alice's default account
@@ -412,7 +413,7 @@ func Example_transactionWithEvents() {
 		panic(err)
 	}
 
-	amount := types.UCompact(12345)
+	amount := types.NewUCompactFromUInt(12345)
 
 	c, err := types.NewCall(meta, "Balances.transfer", bob, amount)
 	if err != nil {
@@ -436,24 +437,26 @@ func Example_transactionWithEvents() {
 	}
 
 	// Get the nonce for Alice
-	key, err := types.CreateStorageKey(meta, "System", "AccountNonce", signature.TestKeyringPairAlice.PublicKey, nil)
+	key, err := types.CreateStorageKey(meta, "System", "Account", signature.TestKeyringPairAlice.PublicKey, nil)
 	if err != nil {
 		panic(err)
 	}
 
-	var nonce uint32
-	ok, err := api.RPC.State.GetStorageLatest(key, &nonce)
+	var accountInfo types.AccountInfo
+	ok, err := api.RPC.State.GetStorageLatest(key, &accountInfo)
 	if err != nil || !ok {
 		panic(err)
 	}
+
+	nonce := uint32(accountInfo.Nonce)
 
 	o := types.SignatureOptions{
 		BlockHash:   genesisHash,
 		Era:         types.ExtrinsicEra{IsMortalEra: false},
 		GenesisHash: genesisHash,
-		Nonce:       types.UCompact(nonce),
+		Nonce:       types.NewUCompactFromUInt(uint64(nonce)),
 		SpecVersion: rv.SpecVersion,
-		Tip:         0,
+		Tip:         types.NewUCompactFromUInt(0),
 	}
 
 	fmt.Printf("Sending %v from %#x to %#x with nonce %v", amount, signature.TestKeyringPairAlice.PublicKey, bob.AsAccountID, nonce)

@@ -33,7 +33,6 @@ type Client interface {
 		*gethrpc.ClientSubscription, error)
 
 	URL() string
-	//MetaData(cache bool) (*MetadataVersioned, error)
 }
 
 type client struct {

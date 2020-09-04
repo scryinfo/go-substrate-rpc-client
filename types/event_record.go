@@ -55,45 +55,6 @@ func (e *EventRecordsRaw) Decode(decoder scale.Decoder) error {
 	return nil
 }
 
-//erc1155
-
-type EventErc1155NewToken struct {
-	Phase        Phase
-	TokenId      uint32
-	AccountId    AccountID
-	TokenBalance uint64
-	Topics       []Hash
-}
-
-type EventErc1155Transfer struct {
-	Phase  Phase
-	From   AccountID
-	To     AccountID
-	Value  uint64
-	Topics []Hash
-}
-
-type EventErc1155TransferSingle struct {
-	Phase    Phase
-	Operator AccountID
-	From     AccountID
-	To       AccountID
-	Id       uint32
-	Value    uint64
-	Topics   []Hash
-}
-
-///**
-//  @dev MUST emit when approval for a second party/operator address to manage all tokens for an owner address is enabled or disabled (absense of an event assumes disabled).
-//*/
-type EventErc1155ApprovalForAll struct {
-	Phase    Phase
-	Owner    AccountID
-	Operator AccountID
-	Approved bool
-	Topics   []Hash
-}
-
 // EventRecords is a default set of possible event records that can be used as a target for
 // `func (e EventRecordsRaw) Decode(...`
 type EventRecords struct {
@@ -120,11 +81,72 @@ type EventRecords struct {
 	System_CodeUpdated                 []EventSystemCodeUpdated                 //nolint:stylecheck,golint
 	System_NewAccount                  []EventSystemNewAccount                  //nolint:stylecheck,golint
 	System_KilledAccount               []EventSystemKilledAccount               //nolint:stylecheck,golint
+	Assets_Issued                      []EventAssetIssued                       //nolint:stylecheck,golint
+	Assets_Transferred                 []EventAssetTransferred                  //nolint:stylecheck,golint
+	Assets_Destroyed                   []EventAssetDestroyed                    //nolint:stylecheck,golint
+	Democracy_Proposed                 []EventDemocracyProposed                 //nolint:stylecheck,golint
+	Democracy_Tabled                   []EventDemocracyTabled                   //nolint:stylecheck,golint
+	Democracy_ExternalTabled           []EventDemocracyExternalTabled           //nolint:stylecheck,golint
+	Democracy_Started                  []EventDemocracyStarted                  //nolint:stylecheck,golint
+	Democracy_Passed                   []EventDemocracyPassed                   //nolint:stylecheck,golint
+	Democracy_NotPassed                []EventDemocracyNotPassed                //nolint:stylecheck,golint
+	Democracy_Cancelled                []EventDemocracyCancelled                //nolint:stylecheck,golint
+	Democracy_Executed                 []EventDemocracyExecuted                 //nolint:stylecheck,golint
+	Democracy_Delegated                []EventDemocracyDelegated                //nolint:stylecheck,golint
+	Democracy_Undelegated              []EventDemocracyUndelegated              //nolint:stylecheck,golint
+	Democracy_Vetoed                   []EventDemocracyVetoed                   //nolint:stylecheck,golint
+	Democracy_PreimageNoted            []EventDemocracyPreimageNoted            //nolint:stylecheck,golint
+	Democracy_PreimageUsed             []EventDemocracyPreimageUsed             //nolint:stylecheck,golint
+	Democracy_PreimageInvalid          []EventDemocracyPreimageInvalid          //nolint:stylecheck,golint
+	Democracy_PreimageMissing          []EventDemocracyPreimageMissing          //nolint:stylecheck,golint
+	Democracy_PreimageReaped           []EventDemocracyPreimageReaped           //nolint:stylecheck,golint
+	Democracy_Unlocked                 []EventDemocracyUnlocked                 //nolint:stylecheck,golint
+	Elections_NewTerm                  []EventElectionsNewTerm                  //nolint:stylecheck,golint
+	Elections_EmptyTerm                []EventElectionsEmptyTerm                //nolint:stylecheck,golint
+	Elections_MemberKicked             []EventElectionsMemberKicked             //nolint:stylecheck,golint
+	Elections_MemberRenounced          []EventElectionsMemberRenounced          //nolint:stylecheck,golint
+	Elections_VoterReported            []EventElectionsVoterReported            //nolint:stylecheck,golint
+	Identity_IdentitySet               []EventIdentitySet                       //nolint:stylecheck,golint
+	Identity_IdentityCleared           []EventIdentityCleared                   //nolint:stylecheck,golint
+	Identity_IdentityKilled            []EventIdentityKilled                    //nolint:stylecheck,golint
+	Identity_JudgementRequested        []EventIdentityJudgementRequested        //nolint:stylecheck,golint
+	Identity_JudgementUnrequested      []EventIdentityJudgementUnrequested      //nolint:stylecheck,golint
+	Identity_JudgementGiven            []EventIdentityJudgementGiven            //nolint:stylecheck,golint
+	Identity_RegistrarAdded            []EventIdentityRegistrarAdded            //nolint:stylecheck,golint
+	Recovery_RecoveryCreated           []EventRecoveryCreated                   //nolint:stylecheck,golint
+	Recovery_RecoveryInitiated         []EventRecoveryInitiated                 //nolint:stylecheck,golint
+	Recovery_RecoveryVouched           []EventRecoveryVouched                   //nolint:stylecheck,golint
+	Recovery_RecoveryClosed            []EventRecoveryClosed                    //nolint:stylecheck,golint
+	Recovery_AccountRecovered          []EventRecoveryAccountRecovered          //nolint:stylecheck,golint
+	Recovery_RecoveryRemoved           []EventRecoveryRemoved                   //nolint:stylecheck,golint
+	Sudo_Sudid                         []EventSudoSudid                         //nolint:stylecheck,golint
+	Sudo_KeyChanged                    []EventSudoKeyChanged                    //nolint:stylecheck,golint
+	Sudo_SudoAsDone                    []EventSudoAsDone                        //nolint:stylecheck,golint
+	Treasury_Proposed                  []EventTreasuryProposed                  //nolint:stylecheck,golint
+	Treasury_Spending                  []EventTreasurySpending                  //nolint:stylecheck,golint
+	Treasury_Awarded                   []EventTreasuryAwarded                   //nolint:stylecheck,golint
+	Treasury_Rejected                  []EventTreasuryRejected                  //nolint:stylecheck,golint
+	Treasury_Burnt                     []EventTreasuryBurnt                     //nolint:stylecheck,golint
+	Treasury_Rollover                  []EventTreasuryRollover                  //nolint:stylecheck,golint
 	Treasury_Deposit                   []EventTreasuryDeposit                   //nolint:stylecheck,golint
-	Erc1155_NewToken                   []EventErc1155NewToken                   //nolint:stylecheck,golint
-	Erc1155_Transfer                   []EventErc1155Transfer                   //nolint:stylecheck,golint
-	Erc1155_TransferSingle             []EventErc1155TransferSingle             //nolint:stylecheck,golint
-	Erc1155_ApprovalForAll             []EventErc1155ApprovalForAll             //nolint:stylecheck,golint
+	Treasury_NewTip                    []EventTreasuryNewTip                    //nolint:stylecheck,golint
+	Treasury_TipClosing                []EventTreasuryTipClosing                //nolint:stylecheck,golint
+	Treasury_TipClosed                 []EventTreasuryTipClosed                 //nolint:stylecheck,golint
+	Treasury_TipRetracted              []EventTreasuryTipRetracted              //nolint:stylecheck,golint
+	Utility_BatchInterrupted           []EventUtilityBatchInterrupted           //nolint:stylecheck,golint
+	Utility_BatchCompleted             []EventUtilityBatchCompleted             //nolint:stylecheck,golint
+	Utility_NewMultisig                []EventUtilityNewMultisig                //nolint:stylecheck,golint
+	Utility_MultisigApproval           []EventUtilityMultisigApproval           //nolint:stylecheck,golint
+	Utility_MultisigExecuted           []EventUtilityMultisigExecuted           //nolint:stylecheck,golint
+	Utility_MultisigCancelled          []EventUtilityMultisigCancelled          //nolint:stylecheck,golint
+	TokenX_CreateTokex                 []EventTokenXCreateTokex                 //nolint:stylecheck,golint
+	TokenX_OriginChange                []EventTokenXOriginChange                //nolint:stylecheck,golint
+	TokenX_AuthorizeTokenx             []EventTokenXAuthorizeTokenx             //nolint:stylecheck,golint
+	TokenX_MintTokenx                  []EventTokenXMintTokenx                  //nolint:stylecheck,golint
+	TokenX_BurnTokenx                  []EventTokenXBurnTokenx                  //nolint:stylecheck,golint
+	TokenX_Transfer                    []EventTokenXTransfer                    //nolint:stylecheck,golint
+	TokenX_Approval                    []EventTokenXApproval                    //nolint:stylecheck,golint
+
 }
 
 // DecodeEventRecords decodes the events records from an EventRecordRaw into a target t using the given Metadata m
@@ -166,7 +188,7 @@ func (e EventRecordsRaw) DecodeEventRecords(m *Metadata, t interface{}) error {
 	log.Debug(fmt.Sprintf("found %v events", n))
 
 	// iterate over events
-	for i := uint64(0); i < n; i++ {
+	for i := uint64(0); i < n.Uint64(); i++ {
 		log.Debug(fmt.Sprintf("decoding event #%v", i))
 
 		// decode Phase
@@ -299,7 +321,10 @@ func (d *DispatchError) Decode(decoder scale.Decoder) error {
 		return err
 	}
 
-	if b == 1 {
+	// https://github.com/paritytech/substrate/blob/4da29261bfdc13057a425c1721aeb4ec68092d42/primitives/runtime/src/lib.rs
+	// Line 391
+	// Enum index 3 for Module Error
+	if b == 3 {
 		d.HasModule = true
 		err = decoder.Decode(&d.Module)
 	}
@@ -313,7 +338,7 @@ func (d *DispatchError) Decode(decoder scale.Decoder) error {
 func (d DispatchError) Encode(encoder scale.Encoder) error {
 	var err error
 	if d.HasModule {
-		err = encoder.PushByte(1)
+		err = encoder.PushByte(3)
 		if err != nil {
 			return err
 		}

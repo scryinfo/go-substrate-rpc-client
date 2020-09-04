@@ -14,22 +14,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package author
+package types
 
-import "github.com/centrifuge/go-substrate-rpc-client/types"
-
-// SubmitExtrinsic will submit a fully formatted extrinsic for block inclusion
-func (a *Author) SubmitExtrinsic(xt types.Extrinsic) (types.Hash, error) {
-	enc, err := types.EncodeToHexString(xt)
-	if err != nil {
-		return types.Hash{}, err
+// AccountInfo contains information of an account
+type AccountInfo struct {
+	Nonce    U32
+	Refcount U8
+	Data     struct {
+		Free       U128
+		Reserved   U128
+		MiscFrozen U128
+		FreeFrozen U128
 	}
-
-	var res string
-	err = a.client.Call(&res, "author_submitExtrinsic", enc)
-	if err != nil {
-		return types.Hash{}, err
-	}
-
-	return types.NewHashFromHexString(res)
 }

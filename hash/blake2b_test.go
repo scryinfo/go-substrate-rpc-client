@@ -14,22 +14,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package author
+package hash
 
-import "github.com/centrifuge/go-substrate-rpc-client/types"
+import (
+	"testing"
 
-// SubmitExtrinsic will submit a fully formatted extrinsic for block inclusion
-func (a *Author) SubmitExtrinsic(xt types.Extrinsic) (types.Hash, error) {
-	enc, err := types.EncodeToHexString(xt)
-	if err != nil {
-		return types.Hash{}, err
-	}
+	"github.com/stretchr/testify/assert"
+)
 
-	var res string
-	err = a.client.Call(&res, "author_submitExtrinsic", enc)
-	if err != nil {
-		return types.Hash{}, err
-	}
-
-	return types.NewHashFromHexString(res)
+func TestBlake2_128Concat(t *testing.T) {
+	h, err := NewBlake2b128Concat(nil)
+	assert.NoError(t, err)
+	n, err := h.Write([]byte("abc"))
+	assert.NoError(t, err)
+	assert.Equal(t, 3, n)
+	assert.Equal(t, []byte{
+		0xcf, 0x4a, 0xb7, 0x91, 0xc6, 0x2b, 0x8d, 0x2b, 0x21, 0x9, 0xc9, 0x2, 0x75, 0x28, 0x78, 0x16, 0x61, 0x62, 0x63,
+	}, h.Sum(nil))
+	assert.Equal(t, 128, h.BlockSize())
+	assert.Equal(t, 19, h.Size())
+	h.Reset()
+	assert.Equal(t, 16, h.Size())
 }

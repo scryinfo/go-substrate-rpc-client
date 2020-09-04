@@ -14,22 +14,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package author
+package hash
 
-import "github.com/centrifuge/go-substrate-rpc-client/types"
+import (
+	"testing"
 
-// SubmitExtrinsic will submit a fully formatted extrinsic for block inclusion
-func (a *Author) SubmitExtrinsic(xt types.Extrinsic) (types.Hash, error) {
-	enc, err := types.EncodeToHexString(xt)
-	if err != nil {
-		return types.Hash{}, err
-	}
+	"github.com/stretchr/testify/assert"
+)
 
-	var res string
-	err = a.client.Call(&res, "author_submitExtrinsic", enc)
-	if err != nil {
-		return types.Hash{}, err
-	}
-
-	return types.NewHashFromHexString(res)
+func TestIdentity(t *testing.T) {
+	h := NewIdentity([]byte("abc"))
+	assert.Equal(t, []byte{0x61, 0x62, 0x63}, h.Sum(nil))
 }

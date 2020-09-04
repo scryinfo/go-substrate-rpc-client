@@ -7,6 +7,13 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+var exampleMetadataV11 = Metadata{
+	MagicNumber:   0x6174656d,
+	Version:       11,
+	IsMetadataV11: true,
+	AsMetadataV11: MetadataV11{MetadataV10: exampleRuntimeMetadataV10},
+}
+
 func TestNewMetadataV11_Decode(t *testing.T) {
 	tests := []struct {
 		name, hexData string
@@ -31,4 +38,9 @@ func TestNewMetadataV11_Decode(t *testing.T) {
 		})
 
 	}
+}
+
+func TestMetadataV11_ExistsModuleMetadata(t *testing.T) {
+	assert.True(t, exampleMetadataV11.ExistsModuleMetadata("EmptyModule"))
+	assert.False(t, exampleMetadataV11.ExistsModuleMetadata("NotExistModule"))
 }

@@ -32,8 +32,9 @@ type Hexer interface {
 	Hex() string
 }
 
-// EncodeToBytes encodes `value` with the scale codec, returning []byte
-func EncodeToBytes(value interface{}) ([]byte, error) { // TODO rename to Encode
+// EncodeToBytes encodes `value` with the scale codec with passed EncoderOptions, returning []byte
+// TODO rename to Encode
+func EncodeToBytes(value interface{}) ([]byte, error) {
 	var buffer = bytes.Buffer{}
 	err := scale.NewEncoder(&buffer).Encode(value)
 	if err != nil {
@@ -43,7 +44,8 @@ func EncodeToBytes(value interface{}) ([]byte, error) { // TODO rename to Encode
 }
 
 // EncodeToHexString encodes `value` with the scale codec, returning a hex string (prefixed by 0x)
-func EncodeToHexString(value interface{}) (string, error) { // TODO rename to EncodeToHex
+// TODO rename to EncodeToHex
+func EncodeToHexString(value interface{}) (string, error) {
 	bz, err := EncodeToBytes(value)
 	if err != nil {
 		return "", err
@@ -53,12 +55,14 @@ func EncodeToHexString(value interface{}) (string, error) { // TODO rename to En
 }
 
 // DecodeFromBytes decodes `bz` with the scale codec into `target`. `target` should be a pointer.
-func DecodeFromBytes(bz []byte, target interface{}) error { // TODO rename to Decode
+// TODO rename to Decode
+func DecodeFromBytes(bz []byte, target interface{}) error {
 	return scale.NewDecoder(bytes.NewReader(bz)).Decode(target)
 }
 
 // DecodeFromHexString decodes `str` with the scale codec into `target`. `target` should be a pointer.
-func DecodeFromHexString(str string, target interface{}) error { // TODO rename to DecodeFromHex
+// TODO rename to DecodeFromHex
+func DecodeFromHexString(str string, target interface{}) error {
 	bz, err := HexDecodeString(str)
 	if err != nil {
 		return err

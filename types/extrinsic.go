@@ -21,6 +21,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"math/big"
 	"strings"
 
 	"github.com/centrifuge/go-substrate-rpc-client/scale"
@@ -46,7 +47,7 @@ type Extrinsic struct {
 	// Version is the encoded version flag (which encodes the raw transaction version and signing information in one byte)
 	Version byte
 	// Signature is the ExtrinsicSignatureV4, it's presence depends on the Version flag
-	Signature ExtrinsicSignatureV5
+	Signature ExtrinsicSignatureV4
 	// Method is the call this extrinsic wraps
 	Method Call
 }
@@ -90,7 +91,7 @@ func (e *Extrinsic) UnmarshalJSON(bz []byte) error {
 	if err != nil {
 		return err
 	}
-	length := UCompact(len(dec))
+	length := NewUCompactFromUInt(uint64(len(dec)))
 	bprefix, err := EncodeToBytes(length)
 	if err != nil {
 		return err
@@ -150,8 +151,8 @@ func (e *Extrinsic) Sign(signer signature.KeyringPair, o SignatureOptions) error
 		return err
 	}
 
-	extSig := ExtrinsicSignatureV5{
-		Signer:    signerPubKey.AsAccountID,
+	extSig := ExtrinsicSignatureV4{
+		Signer:    signerPubKey,
 		Signature: MultiSignature{IsSr25519: true, AsSr25519: sig},
 		Era:       era,
 		Nonce:     o.Nonce,
@@ -234,7 +235,7 @@ func (e Extrinsic) Encode(encoder scale.Encoder) error {
 
 	// take the temporary buffer to determine length, write that as prefix
 	eb := bb.Bytes()
-	err = encoder.EncodeUintCompact(uint64(len(eb)))
+	err = encoder.EncodeUintCompact(*big.NewInt(0).SetUint64(uint64(len(eb))))
 	if err != nil {
 		return err
 	}

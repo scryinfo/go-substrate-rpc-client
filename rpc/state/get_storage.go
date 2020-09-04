@@ -28,7 +28,6 @@ func (s *State) GetStorage(key types.StorageKey, target interface{}, blockHash t
 	if err != nil {
 		return false, err
 	}
-
 	if len(*raw) == 0 {
 		return false, nil
 	}
