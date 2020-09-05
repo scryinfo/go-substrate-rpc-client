@@ -915,7 +915,7 @@ type EventTokenXBurnTokenx struct {
 type EventTokenXTransfer struct {
 	Phase  Phase
 	From AccountID
-	to AccountID
+	To AccountID
 	Amount U32
 	Topics []Hash
 }
