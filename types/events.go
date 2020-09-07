@@ -881,7 +881,7 @@ type EventTokenXAuthorizeTokenx struct {
 	Phase  Phase
 	Origin AccountID
 	To     AccountID
-	Amount UCompact
+	Amount U128
 	Topics []Hash
 }
 
@@ -902,27 +902,27 @@ type EventTokenXMintTokenx struct {
 	Phase  Phase
 	AuthorizationAddress AccountID
 	MemberAddress AccountID
-	Amount UCompact
+	Amount U128
 	Topics []Hash
 
 }
 type EventTokenXBurnTokenx struct {
 	Phase  Phase
 	AuthorizationAddress AccountID
-	Amount UCompact
+	Amount U128
 	Topics []Hash
 }
 type EventTokenXTransfer struct {
 	Phase  Phase
 	From AccountID
 	To AccountID
-	Amount UCompact
+	Amount U128
 	Topics []Hash
 }
 type EventTokenXApproval struct {
 	Phase  Phase
 	Owner AccountID
 	Spender AccountID
-	Amount UCompact
+	Amount U128
 	Topics []Hash
 }
