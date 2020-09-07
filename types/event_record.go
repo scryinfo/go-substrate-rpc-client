@@ -139,7 +139,7 @@ type EventRecords struct {
 	Utility_MultisigApproval           []EventUtilityMultisigApproval           //nolint:stylecheck,golint
 	Utility_MultisigExecuted           []EventUtilityMultisigExecuted           //nolint:stylecheck,golint
 	Utility_MultisigCancelled          []EventUtilityMultisigCancelled          //nolint:stylecheck,golint
-	TokenX_CreateTokex                 []EventTokenXCreateTokex                 //nolint:stylecheck,golint
+	TokenX_CreateTokenx                 []EventTokenXCreateTokenx                 //nolint:stylecheck,golint
 	TokenX_OriginChange                []EventTokenXOriginChange                //nolint:stylecheck,golint
 	TokenX_AuthorizeTokenx             []EventTokenXAuthorizeTokenx             //nolint:stylecheck,golint
 	TokenX_MintTokenx                  []EventTokenXMintTokenx                  //nolint:stylecheck,golint
