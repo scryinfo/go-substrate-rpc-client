@@ -674,7 +674,7 @@ type EventRecoveryRemoved struct {
 // EventSudoSudid is emitted when a sudo just took place.
 type EventSudoSudid struct {
 	Phase  Phase
-	Result bool
+	Result DispatchResult
 	Topics []Hash
 }
 
