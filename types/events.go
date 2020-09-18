@@ -171,12 +171,111 @@ type EventStakingSlash struct {
 	Balance   U128
 	Topics    []Hash
 }
+type EventStakingBonded struct {
+	Phase  Phase
+	Stash  AccountID
+	Amount U128
+	Topics []Hash
+}
+
+type EventStakingUnbonded struct {
+	Phase  Phase
+	Stash  AccountID
+	Amount U128
+	Topics []Hash
+}
+
+type EventStakingWithdrawn struct {
+	Phase  Phase
+	Stash  AccountID
+	Amount U128
+	Topics []Hash
+}
+
+type EventStakingEraPayout struct {
+	Phase           Phase
+	EraIndex        U32
+	ValidatorPayout U128
+	Remainder       U128
+	Topics          []Hash
+}
+type EventStakingSolutionStored struct {
+	Phase   Phase
+	Compute ElectionCompute
+	Topics  []Hash
+}
+
+type EventStakingStakingElection struct {
+	Phase   Phase
+	Compute ElectionCompute
+	Topics  []Hash
+}
 
 // EventStakingOldSlashingReportDiscarded is emitted when an old slashing report from a prior era was discarded because
 // it could not be processed
 type EventStakingOldSlashingReportDiscarded struct {
 	Phase        Phase
 	SessionIndex U32
+	Topics       []Hash
+}
+
+type ElectionCompute int32
+
+const (
+	OnChain ElectionCompute = iota
+	Signed
+	Unsigned
+)
+
+type EventCouncilProposed struct {
+	Phase         Phase
+	Account       AccountID
+	ProposalIndex U32
+	ProposalHash  Hash
+	Threshold     U32
+	Topics        []Hash
+}
+type EventCouncilVoted struct {
+	Phase        Phase
+	Account      AccountID
+	ProposalHash Hash
+	Voted        Bool
+	Yes          U32
+	No           U32
+	Topics       []Hash
+}
+
+type EventCouncilApproved struct {
+	Phase        Phase
+	ProposalHash Hash
+	Topics       []Hash
+}
+
+type EventCouncilDisapproved struct {
+	Phase        Phase
+	ProposalHash Hash
+	Topics       []Hash
+}
+
+type EventCouncilExecuted struct {
+	Phase        Phase
+	ProposalHash Hash
+	Result       DispatchResult
+	Topics       []Hash
+}
+
+type EventCouncilMemberExecuted struct {
+	Phase        Phase
+	ProposalHash Hash
+	Result       DispatchResult
+	Topics       []Hash
+}
+
+type EventCouncilClosed struct {
+	Phase        Phase
+	ProposalHash Hash
+	Yes          U32
+	No           U32
 	Topics       []Hash
 }
 
@@ -893,36 +992,35 @@ type EventTokenXCreateTokenx struct {
 type EventTokenXOriginChange struct {
 	Phase  Phase
 	Origin AccountID
-	From AccountID
+	From   AccountID
 	To     AccountID
 	Topics []Hash
 }
 
 type EventTokenXMintTokenx struct {
-	Phase  Phase
+	Phase                Phase
 	AuthorizationAddress AccountID
-	MemberAddress AccountID
-	Amount U128
-	Topics []Hash
-
+	MemberAddress        AccountID
+	Amount               U128
+	Topics               []Hash
 }
 type EventTokenXBurnTokenx struct {
-	Phase  Phase
+	Phase                Phase
 	AuthorizationAddress AccountID
-	Amount U128
-	Topics []Hash
+	Amount               U128
+	Topics               []Hash
 }
 type EventTokenXTransfer struct {
 	Phase  Phase
-	From AccountID
-	To AccountID
+	From   AccountID
+	To     AccountID
 	Amount U128
 	Topics []Hash
 }
 type EventTokenXApproval struct {
-	Phase  Phase
-	Owner AccountID
+	Phase   Phase
+	Owner   AccountID
 	Spender AccountID
-	Amount U128
-	Topics []Hash
+	Amount  U128
+	Topics  []Hash
 }
