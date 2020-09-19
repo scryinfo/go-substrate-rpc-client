@@ -219,13 +219,28 @@ type EventStakingOldSlashingReportDiscarded struct {
 	Topics       []Hash
 }
 
-type ElectionCompute int32
+type ElectionCompute byte
 
 const (
-	OnChain ElectionCompute = iota
-	Signed
-	Unsigned
+	OnChain ElectionCompute = 0
+	Signed  ElectionCompute = 1
+	Authority ElectionCompute = 2
 )
+func (v *ElectionCompute) Decode(decoder scale.Decoder) error {
+	b, err := decoder.ReadOneByte()
+	vb := ElectionCompute(b)
+	switch vb {
+	case OnChain, Signed, Authority:
+		*v = vb
+	default:
+		return fmt.Errorf("unknown ElectionCompute enum: %v", vb)
+	}
+	return err
+}
+
+func (v ElectionCompute) Encode(encoder scale.Encoder) error {
+	return encoder.PushByte(byte(v))
+}
 
 type EventCouncilProposed struct {
 	Phase         Phase
