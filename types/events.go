@@ -144,6 +144,7 @@ type EventOffencesOffence struct {
 	Phase          Phase
 	Kind           Bytes16
 	OpaqueTimeSlot Bytes
+	Applied		   Bool
 	Topics         []Hash
 }
 
